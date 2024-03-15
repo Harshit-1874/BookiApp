@@ -33,4 +33,16 @@ async function getRates() {
     }
 }
 
-export {main,getRates}
+async function setRate(cab, newRate) {
+    try {
+        await client.connect();
+        const db = client.db('CabSystem');
+        const collection = db.collection('Cabs');
+        await collection.updateOne({}, { $set: { [cab]: newRate } });
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
+export {main,getRates,setRate}

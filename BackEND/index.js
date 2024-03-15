@@ -1,7 +1,7 @@
 import express from "express";
 import {connectDb} from "./DB/dbConnect.js";
 const app = express();
-import { main, getRates } from "./functions/functionsHere.js";
+import { main, getRates,setRate } from "./functions/functionsHere.js";
 import bodyParser from 'body-parser';
 import {findShortestPath} from "./functions/findShortestPath.mjs";
 import {booki} from "./DB/bookingSchema.js";
@@ -72,6 +72,15 @@ app.post('/deleteEntry', async (req, res) => {
   }
 });
 
+app.post("/editCab", async(req,res)=>{
+  try{
+  const {cab,rate} = req.body;
+  await setRate(cab, rate);
+  res.sendStatus(201);
+  }catch(e){
+    res.json(e);
+  }
+})
 
 
 app.post('/getShortestDistance', async (req, res) => {
