@@ -3,6 +3,7 @@ import axios from 'axios';
 import calEndTime from "../assets/functionForConversion";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from './Loader';
 
 function BookingForm() {
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ function BookingForm() {
   const [confirmBooking, setConfirmBooking] = useState(false);
   const [endTime, setEndTime] = useState("");
   const [rateList, setRateList] = useState({});
+  const [isLoading , setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,10 +61,14 @@ function BookingForm() {
     } catch (error) {
       console.error('Error fetching pricing:', error);
     }
+    finally{
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await axios.post('https://booki-app-backend.vercel.app/getAvailableCabs', {
         date: formData.date,
@@ -78,6 +84,8 @@ function BookingForm() {
       setShowAvailableCabs(true);
     } catch (error) {
       console.error('Error fetching available cabs:', error);
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -94,7 +102,7 @@ function BookingForm() {
         cabName: formData.cab,
         cost: price
       });
-      toast.success("Email sent for Successful booking");
+      toast.success("Email sent for Successful booking ");
       setShowAvailableCabs(false);
       setConfirmBooking(false);
       resetFormFields();
@@ -145,7 +153,9 @@ function BookingForm() {
             </div>
             <button className="w-100 btn btn-lg btn-primary" type="submit">Get Available Cabs</button>
           </form>
-          {showAvailableCabs && (
+          {isLoading ? <Loader/> : (
+            <>
+            {showAvailableCabs && (
             <div className="mt-4">
               <h3>Available Cabs:</h3>
               <select className="form-select mb-3" value={formData.cab} name='cab' onChange={handleChange}>
@@ -159,6 +169,9 @@ function BookingForm() {
               <button onClick={handleGetPricing} className="w-100 btn btn-lg btn-primary mb-3">Get Pricing</button>
             </div>
           )}
+            </>
+          )}
+          
           {confirmBooking && (
             <div className="mt-4">
               <h3>Reach Destination at:</h3>
