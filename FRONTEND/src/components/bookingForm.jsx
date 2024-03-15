@@ -153,6 +153,7 @@ function BookingForm() {
             </div>
             <button className="w-100 btn btn-lg btn-primary" type="submit">Get Available Cabs</button>
           </form>
+          <ToastContainer />
           {isLoading ? <Loader/> : (
             <>
             {showAvailableCabs && (
@@ -183,7 +184,6 @@ function BookingForm() {
           )}
        </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

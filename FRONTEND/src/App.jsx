@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import BookingTable from './components/bookingTable'
 import BookingForm from './components/bookingForm';
+import EditCabForm from './components/editcCabForm';
 
 
 function App() {
   const [showBookings, setShowBookings] = useState(false);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [buttonText, setButtonText] = useState('Create New Booking');
+  const [editcabs,setEditCabs] = useState(false);
 
   const toggleBookings = () => {
     setShowBookings(!showBookings);
   };
+
+  const toggleEditForm = () =>{
+    setEditCabs(!editcabs);
+  }
 
   const toggleBookingForm = () => {
     setShowBookingForm(!showBookingForm);
@@ -30,11 +36,15 @@ function App() {
             <button type="button" class="btn btn-outline-secondary btn-lg px-4" onClick={toggleBookings}>
               {showBookings ? 'Hide Bookings' : 'Show Bookings'}
             </button>
+            <button type="button" className="btn btn-outline-secondary btn-lg px-4 me-sm-3" onClick={toggleEditForm}>
+              {editcabs ? "Close Edit form" : "Edit cabs"}
+            </button>
           </div>
         </div>
       </div>
       {showBookingForm && <BookingForm />}
       {showBookings && <BookingTable />}
+      {editcabs && <EditCabForm/>}
     </div>
   );
 }
