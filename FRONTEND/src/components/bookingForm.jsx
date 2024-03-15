@@ -31,6 +31,7 @@ function BookingForm() {
 
   const resetFormFields = () => {
     setFormData({
+      date:"",
       name: "",
       email: "",
       source: "A",
@@ -42,13 +43,13 @@ function BookingForm() {
 
   const handleGetPricing = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/getshortestdistance', {
+      const response = await axios.post('https://booki-app-backend.vercel.app/getshortestdistance', {
         source: formData.source,
         destination: formData.destination,
         time: formData.time // Assuming the available cabs are sent to the pricing API
       });
       setEndTime(calEndTime(formData.time, response.data.distance));
-      const response2 = await axios.post('http://localhost:8000/getrates', {
+      const response2 = await axios.post('https://booki-app-backend.vercel.app/getrates', {
         availableCabs: availableCabs,
         distance: response.data.distance
       });
@@ -63,7 +64,7 @@ function BookingForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/getAvailableCabs', {
+      const response = await axios.post('https://booki-app-backend.vercel.app/getAvailableCabs', {
         date: formData.date,
         time: formData.time
       });
@@ -71,7 +72,7 @@ function BookingForm() {
         toast.error("Source and destination cannot be same");
         return;
       }
-      const response2 = await axios.get('http://localhost:8000/rateList');
+      const response2 = await axios.get('https://booki-app-backend.vercel.app/rateList');
       setAvailableCabs(response.data.availableCabs);
       setRateList(response2.data);
       setShowAvailableCabs(true);
@@ -83,7 +84,7 @@ function BookingForm() {
 
   const doBooking = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/addbooking", {
+      const response = await axios.post("https://booki-app-backend.vercel.app/addbooking", {
         date: formData.date,
         email: formData.email,
         source: formData.source,

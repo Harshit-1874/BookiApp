@@ -12,7 +12,7 @@ const BookingTable = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/getbookings');
+            const response = await axios.get('https://booki-app-backend.vercel.app/getbookings');
             setTableData(response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -24,7 +24,7 @@ const BookingTable = () => {
         if (!confirmation) return;
 
         try {
-            await axios.post('http://localhost:8000/deleteEntry', { date, email, startTime });
+            await axios.post('https://booki-app-backend.vercel.app/deleteEntry', { date, email, startTime });
             fetchData();
             toast.success("Entry Deleted Successfully")
         } catch (error) {
