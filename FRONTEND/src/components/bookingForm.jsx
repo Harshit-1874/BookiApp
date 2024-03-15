@@ -94,7 +94,7 @@ function BookingForm() {
         cabName: formData.cab,
         cost: price
       });
-      toast.success("Booking successful");
+      toast.success("Email sent for Successful booking");
       setShowAvailableCabs(false);
       setConfirmBooking(false);
       resetFormFields();
